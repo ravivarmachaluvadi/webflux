@@ -19,4 +19,8 @@ public class Photo {
     private String url;
     private String thumbnailUrl;
 
+    public Photo(int id){
+        this.id=id;
+    }
+
 }

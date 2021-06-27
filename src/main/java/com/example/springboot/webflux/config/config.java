@@ -1,10 +1,12 @@
 package com.example.springboot.webflux.config;
 
+import io.netty.resolver.DefaultAddressResolverGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.util.concurrent.Executor;
 
@@ -29,7 +31,11 @@ public class config {
 
     @Bean
     WebClient webClient() {
-    return WebClient.builder().baseUrl("https://jsonplaceholder.typicode.com").build();
+        return WebClient
+            .builder()
+            .baseUrl("https://jsonplaceholder.typicode.com")
+            //.resolver(DefaultAddressResolverGroup.INSTANCE)
+            .build();
     }
 
 }
