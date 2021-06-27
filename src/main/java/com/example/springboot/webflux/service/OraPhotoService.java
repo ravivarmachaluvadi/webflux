@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.IntStream;
 
 @Service
 @Slf4j
-public class PhotoService {
+public class OraPhotoService {
 
     @Autowired
     OraPhotoRepository oraPhotoRepository;
@@ -51,7 +50,7 @@ public class PhotoService {
     public List<Photo> getPhotosBlocking() throws InterruptedException {
 
         List<Photo> photos = IntStream.rangeClosed(1, 50)
-                .peek(PhotoService::sleepexecution)
+                .peek(OraPhotoService::sleepexecution)
                 .mapToObj(value -> oraPhotoRepository.findById(value).get())
                 .collect(Collectors.toList());
 
