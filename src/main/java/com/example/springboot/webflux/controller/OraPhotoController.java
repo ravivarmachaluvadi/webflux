@@ -38,12 +38,6 @@ public class OraPhotoController {
         return photoList;
     }
 
-
-  /*  @GetMapping(value = "/rxdb/photos",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    Flux<Mono<Photo>> getRxDBPhotos() {
-        return oraPhotoService.getRxPhotos();
-    }*/
-
     @GetMapping(value = "/stream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Customer> getAllCustomersStream() {
         return oraPhotoService.loadAllCustomersStream();
@@ -65,9 +59,10 @@ public class OraPhotoController {
             allFutures.add(oraPhotoService.getPhotosAysnc(i));
         }
         CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[0])).join();
-       /* for (int i = 0; i < 5000; i++) {
+ for (int i = 0; i < 5000; i++) {
             log.info(" Record fetched with id {} ",allFutures.get(i).get().get().getId());
-        }*/
+        }
+
         log.info("Total time: " + Duration.between(start, Instant.now()).getSeconds());
     }
 

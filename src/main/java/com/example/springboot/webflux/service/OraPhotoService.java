@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.List;
@@ -26,9 +27,6 @@ public class OraPhotoService {
     @Autowired
     OraPhotoRepository oraPhotoRepository;
 
-    /*@Autowired
-    PhotoFluxRepository photoFluxRepository;
-*/
     @Autowired
     CustomerDao customerDao;
 
@@ -65,14 +63,6 @@ public class OraPhotoService {
 
         return photos;
     }
-
-
-    /*public Flux<Mono<Photo>> getRxPhotos() {
-
-        return Flux.range(1, 10)
-                .delayElements(Duration.ofSeconds(1))
-                .map(value -> photoFluxRepository.findById(value));
-    }*/
 
     public Flux<Customer> loadAllCustomersStream() {
         long start = System.currentTimeMillis();
