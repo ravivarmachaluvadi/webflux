@@ -56,8 +56,12 @@ public class WebClientController {
         //return Flux.range(1,5000).flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
         //return Flux.just(5,9,10).delayElements(Duration.ofSeconds(3)).flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
         //return Flux.fromIterable(List.of(5,9,10)).delayElements(Duration.ofSeconds(3)).flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
-        //return Flux.fromIterable(integers).delayElements(Duration.ofSeconds(3)).flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
-        return Flux.range(1,5000)./*delayElements(Duration.ofSeconds(3)).*/flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
+        //return Flux.fromIterable(integers).delayElements(Duration.ofSeconds(0)).flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
+        //return Flux.range(1,200)./*delayElements(Duration.ofSeconds(3)).*/flatMap(integer -> getPhotoMono(integer).map(photo -> photo)).log();
+        return Flux.range(1,200)./*delayElements(Duration.ofSeconds(3)).*/flatMap(integer ->
+        {
+            return getPhotoMono(integer);
+        }).log();
     }
 
     @GetMapping(value = "offline/flux/mono/photos",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -95,14 +99,21 @@ public class WebClientController {
     }
 
     private Mono<Photo> getPhotoMono(int i) {
+
+        try {
+            Thread.sleep(1000); // this seelp behaving differently against  //.delayElement(Duration.ofSeconds(1));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return webClient.get()
                 .uri("/photos/" + i)
                 .retrieve()
                 /*.onStatus(httpStatus -> HttpStatus.NOT_FOUND.equals(httpStatus),
                         clientResponse -> Mono.empty())*/
-                .bodyToMono(Photo.class)
-                .delayElement(Duration.ofSeconds(1))
-                .log();
+                .bodyToMono(Photo.class);
+                //.delayElement(Duration.ofSeconds(1)); this sleep
+                //.log();
     }
 
     private Mono<Photo> getPhotoMonoOffline(int i) {
