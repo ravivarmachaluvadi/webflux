@@ -4,6 +4,7 @@ import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import oracle.r2dbc.impl.OracleConnectionFactoryProviderImpl;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -38,26 +39,29 @@ public class config {
     @Bean
     WebClient webClient() {
         return WebClient
-            .builder()
-            .baseUrl("https://jsonplaceholder.typicode.com")
-            //.resolver(DefaultAddressResolverGroup.INSTANCE)
-            .build();
+                .builder()
+                .baseUrl("https://jsonplaceholder.typicode.com")
+                //.resolver(DefaultAddressResolverGroup.INSTANCE)
+                .build();
     }
 
 
     @Bean
-    ConnectionFactory connectionFactory() {
+    R2dbcEntityTemplate reactiveTemplate() {
 
         ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
                 .option(ConnectionFactoryOptions.HOST, "localhost")
                 .option(ConnectionFactoryOptions.PORT, 1521)
-                .option(ConnectionFactoryOptions.USER,"hr")
-                .option(ConnectionFactoryOptions.PASSWORD,"oracle")
-                .option(ConnectionFactoryOptions.DATABASE,"orcl")
-                .option(ConnectionFactoryOptions.DRIVER,"oracle")
+                .option(ConnectionFactoryOptions.USER, "hr")
+                .option(ConnectionFactoryOptions.PASSWORD, "oracle")
+                .option(ConnectionFactoryOptions.DATABASE, "orcl")
+                .option(ConnectionFactoryOptions.DRIVER, "oracle")
                 //.option(ConnectionFactoryOptions.PROTOCOL,"driver")
                 .build();
 
-       return ConnectionFactories.get(options);
+        ConnectionFactory connectionFactory = ConnectionFactories.get(options);
+
+        return  new R2dbcEntityTemplate(connectionFactory);
     }
 }
+
