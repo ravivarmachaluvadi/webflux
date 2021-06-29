@@ -17,9 +17,9 @@ import java.time.Duration;
 @Slf4j
 public class OraRxService {
 
-     /* @Autowired
-      PhotoR2Repository photoFluxRepository;*/
-
+    /*  @Autowired
+      PhotoR2Repository photoFluxRepository;
+*/
       @Autowired
       R2dbcEntityTemplate reactiveTemplate;
 
@@ -30,10 +30,11 @@ public class OraRxService {
                     .all()
                    .delayElements(Duration.ofSeconds(1))
                    .log();
-                    //.delayElements(Duration.ofSeconds(1));
-                    /*.doOnNext(it -> log.info(it))
-                    .as(StepVerifier::create)
-                    .expectNextCount(1)
-                    .verifyComplete();*/
+
       }
+
+   /* public Flux<Photo> getPhotos() {
+
+        return photoFluxRepository.findAll().delayElements(Duration.ofSeconds(1)).log();
+    }*/
 }

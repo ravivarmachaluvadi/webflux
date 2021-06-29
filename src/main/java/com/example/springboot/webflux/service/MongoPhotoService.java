@@ -1,7 +1,7 @@
 package com.example.springboot.webflux.service;
 
 import com.example.springboot.webflux.dto.Photo;
-import com.example.springboot.webflux.repository.MongoPhotoRepository;
+import com.example.springboot.webflux.mongo.repository.MongoPhotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Range;
 import org.springframework.stereotype.Service;

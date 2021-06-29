@@ -5,11 +5,13 @@ import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @Configuration
-@EnableR2dbcRepositories
+@EnableR2dbcRepositories(basePackages = "com.example.springboot.webflux.reactive.repository")
 class ApplicationConfig extends AbstractR2dbcConfiguration {
 
   @Override
@@ -27,4 +29,5 @@ class ApplicationConfig extends AbstractR2dbcConfiguration {
     return ConnectionFactories.get(options);
 
   }
-}*/
+}
+*/

@@ -18,8 +18,6 @@ public class OraRxController {
     @GetMapping(value = "/ora/rx/photos",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     Flux<Photo> getPhotos(){
 
-        Flux<Photo>  photoList= oraRxService.getPhotos();
-
-        return photoList;
+        return  oraRxService.getPhotos();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.springboot.webflux.repository;
+package com.example.springboot.webflux.mongo.repository;
 
 import com.example.springboot.webflux.dto.Photo;
 import org.springframework.data.domain.Range;

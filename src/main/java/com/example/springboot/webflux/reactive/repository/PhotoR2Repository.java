@@ -1,5 +1,5 @@
 /*
-package com.example.springboot.webflux.repository;
+package com.example.springboot.webflux.reactive.repository;
 
 import com.example.springboot.webflux.entity.Photo;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
