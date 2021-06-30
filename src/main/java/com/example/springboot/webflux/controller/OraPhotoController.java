@@ -38,7 +38,7 @@ public class OraPhotoController {
         return photoList;
     }
 
-    @GetMapping(value = "/stream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "customer/stream",produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Customer> getAllCustomersStream() {
         return oraPhotoService.loadAllCustomersStream();
     }

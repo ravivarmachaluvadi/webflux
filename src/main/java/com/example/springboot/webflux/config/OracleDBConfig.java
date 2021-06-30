@@ -29,7 +29,7 @@ public class OracleDBConfig {
     }
 
     @Bean(name = "oraEntityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean bookEntityManagerFactory(EntityManagerFactoryBuilder builder,
+    public LocalContainerEntityManagerFactoryBean oraEntityManagerFactory(EntityManagerFactoryBuilder builder,
                                                                            @Qualifier("oraDataSource") DataSource dataSource) {
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update"); //overriding
@@ -39,8 +39,8 @@ public class OracleDBConfig {
     }
 
     @Bean(name = "entityTransactionManager")
-    public PlatformTransactionManager bookTransactionManager(
-            @Qualifier("oraEntityManagerFactory") EntityManagerFactory bookEntityManagerFactory) {
-        return new JpaTransactionManager(bookEntityManagerFactory);
+    public PlatformTransactionManager entityTransactionManager(
+            @Qualifier("oraEntityManagerFactory") EntityManagerFactory oraEntityManagerFactory) {
+        return new JpaTransactionManager(oraEntityManagerFactory);
     }
 }

@@ -57,7 +57,7 @@ public class OraPhotoService {
 
     public Flux<Photo> getRDBPhotos() throws InterruptedException {
 
-        Flux<Photo> photos = Flux.range(1, 50)
+        Flux<Photo> photos = Flux.range(1, 50).log()
                 .delayElements(Duration.ofSeconds(1))
                 .map(value -> oraPhotoRepository.findById(value).get());
 

@@ -33,6 +33,15 @@ public class OraRxService {
 
       }
 
+    public Flux<Photo> getPhoto() {
+
+        return reactiveTemplate.select(Photo.class)
+                .from("photo_tb")
+                .all()
+                .delayElements(Duration.ofSeconds(1))
+                .log();
+
+    }
    /* public Flux<Photo> getPhotos() {
 
         return photoFluxRepository.findAll().delayElements(Duration.ofSeconds(1)).log();

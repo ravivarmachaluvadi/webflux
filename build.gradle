@@ -33,6 +33,8 @@ dependencies {
 	implementation group: 'org.redisson', name: 'redisson', version: '3.2.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+	testCompile(platform('org.junit:junit-bom:5.7.2'))
+	testCompile('org.junit.jupiter:junit-jupiter')
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'io.projectreactor:reactor-test'
 }
