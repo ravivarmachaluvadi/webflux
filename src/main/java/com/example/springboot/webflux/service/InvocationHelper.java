@@ -69,6 +69,47 @@ public class InvocationHelper {
     }
 
 
+    public ResponseEntity getPhotoDTORemoteBlocking(Integer id) throws InterruptedException {
+        ResponseEntity<Photo> responseEntity= new ResponseEntity("Custom Response", new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        TimeUnit.SECONDS.sleep(1);
+
+        // URI (URL) parameters
+        Map<String, Integer> uriParams = new HashMap<>();
+        uriParams.put("id",id);
+
+        // Query parameters
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+
+        String unresolvedUrl = "https://jsonplaceholder.typicode.com/photos/{id}";
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(unresolvedUrl).queryParams(queryParams);
+        String resolvedUrl = builder.buildAndExpand(uriParams).toUriString();
+
+        log.info(" Thread name : "+Thread.currentThread().getName()+"  "+resolvedUrl );
+
+        //Setting Up Headers
+        HttpHeaders httpHeaders = new HttpHeaders();
+
+        List<MediaType> mediaTypeList = new ArrayList<>();
+
+        mediaTypeList.add(MediaType.APPLICATION_JSON);
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        httpHeaders.setAccept(mediaTypeList);
+        HttpEntity<String> requestEntity = new HttpEntity<>("", httpHeaders);
+
+        try {
+            responseEntity= restTemplate.exchange(resolvedUrl, HttpMethod.GET, requestEntity,Photo.class);
+
+          /*  Photo photo= responseEntity.getBody();
+            photoRepository.save(photo);
+            */
+        } catch (Exception e) {
+            log.error("Exception while invoking receive return endpoint for " +e.getMessage());
+        }
+        return responseEntity;
+    }
+
+
     @Async
     public CompletableFuture<ResponseEntity> offlineAsync(Integer id) throws InterruptedException {
         ResponseEntity<Void> responseEntity= new ResponseEntity(new Photo(1), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);

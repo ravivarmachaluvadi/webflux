@@ -50,20 +50,24 @@ public class OraPhotoController {
 
 
     @GetMapping("ora/aynsc/photos")
-    public void getDBPhotosInAsync() throws InterruptedException, ExecutionException {
+    public List<Photo> getDBPhotosInAsync() throws InterruptedException, ExecutionException {
+
+        List<Photo> photoList =new ArrayList<>(10);
+
         //async calls
         Instant start = Instant.now();
         List<CompletableFuture<Optional<Photo>>> allFutures = new ArrayList<>();
 
-        for (int i = 1; i < 10; i++) {
+        for (int i = 1; i <= 5000; i++) {
             allFutures.add(oraPhotoService.getPhotosAysnc(i));
         }
         CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[0])).join();
- for (int i = 0; i < 5000; i++) {
-            log.info(" Record fetched with id {} ",allFutures.get(i).get().get().getId());
+        for (int i = 0; i < 5000; i++) {
+            photoList.add(allFutures.get(i).get().get());
         }
-
         log.info("Total time: " + Duration.between(start, Instant.now()).getSeconds());
+        return photoList;
+
     }
 
 }

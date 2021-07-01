@@ -35,18 +35,28 @@ public class RemoteController {
 
     @GetMapping("/aynsc/photos")
     public List<Photo> getPhotosInAsync() throws InterruptedException, ExecutionException {
-        List<Photo> photoList =new ArrayList<>(5000);
+        List<Photo> photoList =new ArrayList<>(10);
         //async calls
         Instant start = Instant.now();
         List<CompletableFuture<ResponseEntity>> allFutures = new ArrayList<>();
-        for (int i = 1; i < 5001; i++) {
+        for (int i = 1; i <=10; i++) {
             allFutures.add(invocationHelper.getPhotoDTOAsync(i));
         }
         CompletableFuture.allOf(allFutures.toArray(new CompletableFuture[0])).join();
-        for (int i = 0; i < 5000; i++) {
+        for (int i = 0; i < 10; i++) {
             photoList.add((Photo) allFutures.get(i).get().getBody());
         }
         System.out.println("Total time: " + Duration.between(start, Instant.now()).getSeconds());
+        return photoList;
+    }
+
+    @GetMapping("/sync/remote/photos")
+    public List<Photo> getPhotosRemoteBlocking() throws InterruptedException, ExecutionException {
+        List<Photo> photoList =new ArrayList<>(10);
+
+        for (int i = 1; i <=10; i++) {
+            photoList.add((Photo) invocationHelper.getPhotoDTORemoteBlocking(i).getBody());
+        }
         return photoList;
     }
 
